@@ -3,6 +3,7 @@
 <suite name="sel-13">
     <test name="TESTS">
         <classes>
+            <class name="test.LitecartLoginTest"/>
             <class name="test.MyFirstTest"/>
         </classes>
     </test>

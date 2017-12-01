@@ -17,7 +17,6 @@ public class MyFirstTest {
 
     @BeforeClass
     public void openBrowser() {
-        System.setProperty("webdriver.chrome.driver","C:\\Program Files\\drivers\\chromedriver.exe");
         driver = new ChromeDriver();
         wait = new WebDriverWait(driver, 10);
     }

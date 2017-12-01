@@ -17,15 +17,15 @@ public class LitecartLoginTest {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private String runServerString = "C:\\xampp\\xampp_start.exe";
-    private String stopServerString = "C:\\xampp\\xampp_stop.exe";
+    private static final String START_XAMPP_EXE = "C:\\xampp\\xampp_start.exe";
+    private static final String STOP_XAMPP_EXE = "C:\\xampp\\xampp_stop.exe";
 
     public String getRunServerString() {
-        return runServerString;
+        return START_XAMPP_EXE;
     }
 
     public String getStopServerString() {
-        return stopServerString;
+        return STOP_XAMPP_EXE;
     }
 
     @BeforeClass
@@ -35,7 +35,6 @@ public class LitecartLoginTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.setProperty("webdriver.chrome.driver","C:\\Program Files\\drivers\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
