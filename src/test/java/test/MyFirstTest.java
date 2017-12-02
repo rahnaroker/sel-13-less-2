@@ -1,37 +1,34 @@
 package test;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static test.DriverFactory.*;
 
 public class MyFirstTest {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
+    private static final String BROWSER = "chrome";
 
     @BeforeClass
     public void openBrowser() {
-        driver = new ChromeDriver();
-        wait = new WebDriverWait(driver, 10);
+        startBrowser(BROWSER);
     }
 
     @Test
-    public void checkSoftwareTestingSite() throws InterruptedException {
-        driver.get("http://software-testing.ru/");
-        wait.until(titleIs("Software-Testing.Ru"));
-        driver.findElement(By.xpath("//span[text()='Библиотека']")).click();
-        Assert.assertEquals("Библиотека", driver.getTitle());
+    public void checkSoftwareTestingSite() {
+
+        getDriver(BROWSER).get("http://software-testing.ru/");
+        getWait().until(titleIs("Software-Testing.Ru"));
+        getDriver(BROWSER).findElement(By.xpath("//span[text()='Библиотека']")).click();
+        Assert.assertEquals("Библиотека", getDriver(BROWSER).getTitle());
     }
 
     @AfterClass
     public void closeBrowser() {
-        driver.quit();
-        driver = null;
+        stopBrowser(BROWSER);
     }
 }

@@ -1,24 +1,20 @@
 package test;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
+import static test.DriverFactory.*;
 
 public class LitecartLoginTest {
 
-    private WebDriver driver;
-    private WebDriverWait wait;
     private static final String START_XAMPP_EXE = "C:\\xampp\\xampp_start.exe";
     private static final String STOP_XAMPP_EXE = "C:\\xampp\\xampp_stop.exe";
+    private static final String BROWSER = "chrome";
 
     public String getRunServerString() {
         return START_XAMPP_EXE;
@@ -35,24 +31,21 @@ public class LitecartLoginTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
+        startBrowser(BROWSER);
     }
 
     @Test
-    public void checkLitecortLogin() throws InterruptedException {
-        driver.get("http://localhost/litecart/admin/");
-        driver.findElement(By.name("username")).sendKeys("admin");
-        driver.findElement(By.name("password")).sendKeys("admin");
-        driver.findElement(By.name("login")).click();
-        wait.until(titleIs("My Store"));
+    public void checkLitecortLogin() {
+        getDriver(BROWSER).get("http://localhost/litecart/admin/");
+        getDriver(BROWSER).findElement(By.name("username")).sendKeys("admin");
+        getDriver(BROWSER).findElement(By.name("password")).sendKeys("admin");
+        getDriver(BROWSER).findElement(By.name("login")).click();
+        getWait().until(titleIs("My Store"));
     }
 
     @AfterClass
     public void closeBrowser() {
-        driver.quit();
-        driver = null;
+        stopBrowser(BROWSER);
         try {
             Runtime.getRuntime().exec(getStopServerString());
         } catch (IOException e) {
