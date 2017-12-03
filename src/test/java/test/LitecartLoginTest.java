@@ -36,16 +36,16 @@ public class LitecartLoginTest {
 
     @Test
     public void checkLitecortLogin() {
-        getDriver(BROWSER).get("http://localhost/litecart/admin/");
-        getDriver(BROWSER).findElement(By.name("username")).sendKeys("admin");
-        getDriver(BROWSER).findElement(By.name("password")).sendKeys("admin");
-        getDriver(BROWSER).findElement(By.name("login")).click();
+        getDriver().get("http://localhost/litecart/admin/");
+        getDriver().findElement(By.name("username")).sendKeys("admin");
+        getDriver().findElement(By.name("password")).sendKeys("admin");
+        getDriver().findElement(By.name("login")).click();
         getWait().until(titleIs("My Store"));
     }
 
     @AfterClass
     public void closeBrowser() {
-        stopBrowser(BROWSER);
+        stopBrowser();
         try {
             Runtime.getRuntime().exec(getStopServerString());
         } catch (IOException e) {
