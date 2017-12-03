@@ -3,6 +3,7 @@ package test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -10,6 +11,8 @@ public class DriverFactory {
     
     private static WebDriver driver;
     private static WebDriverWait wait;
+    private static final String FF_DEV_PATH = "C:\\Program Files\\Nightly\\firefox.exe";
+    private static final String FF_ESR_PATH = "C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe";
 
     public static WebDriverWait getWait()
     {
@@ -26,6 +29,18 @@ public class DriverFactory {
         wait = new WebDriverWait(driver, 10);
     }
 
+    public static void startFF_DEV() {
+        FirefoxOptions options = new FirefoxOptions().setBinary(FF_DEV_PATH);
+        driver = new FirefoxDriver(options);
+        wait = new WebDriverWait(driver, 10);
+    }
+
+    public static void startFF_ESR() {
+        FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary(FF_ESR_PATH);
+        driver = new FirefoxDriver(options);
+        wait = new WebDriverWait(driver, 10);
+    }
+
     public static void startIE() {
         driver = new InternetExplorerDriver();
         wait = new WebDriverWait(driver, 10);
@@ -38,6 +53,10 @@ public class DriverFactory {
             startFF();
         } else if (browser.equals("ie")) {
             startIE();
+        } else if (browser.equals("ff_dev")) {
+            startFF_DEV();
+        } else if (browser.equals("ff_esr")) {
+            startFF_ESR();
         } else {
             throw new RuntimeException();
         }
