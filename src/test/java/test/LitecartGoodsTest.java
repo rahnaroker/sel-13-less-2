@@ -28,10 +28,10 @@ public class LitecartGoodsTest {
     }
 
     @Test
-    public void checkMenuTree() {
+    public void checkStickers() {
         getDriver().get("http://localhost/litecart/");
         getWait().until(titleIs("Online Store | My Store"));
-        /*Количество картинок с товарами совпадает с количеством стикеров на картинках*/
+        /* Количество картинок с товарами совпадает с количеством стикеров на этих картинках */
         Assert.assertEquals(getDriver().findElements(By.cssSelector("div.image-wrapper > img.image")).size(),
                 getDriver().findElements(By.cssSelector("div.image-wrapper > div.sticker")).size());
 
