@@ -6,7 +6,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
-import static test.DriverFactory.*;
+import static main.DriverFactory.*;
 
 public class MyFirstTest {
 
@@ -19,7 +19,6 @@ public class MyFirstTest {
 
     @Test
     public void checkSoftwareTestingSite() {
-
         getDriver().get("http://software-testing.ru/");
         getWait().until(titleIs("Software-Testing.Ru"));
         getDriver().findElement(By.xpath("//span[text()='Библиотека']")).click();

@@ -1,5 +1,6 @@
 package test;
 
+import main.SettingsProvider;
 import org.openqa.selenium.By;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
@@ -7,27 +8,19 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+import static main.SettingsProvider.getRunXamppServer;
+import static main.SettingsProvider.getStopXamppServer;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
-import static test.DriverFactory.*;
+import static main.DriverFactory.*;
 
 public class LitecartLoginTest {
 
-    private static final String START_XAMPP_EXE = "C:\\xampp\\xampp_start.exe";
-    private static final String STOP_XAMPP_EXE = "C:\\xampp\\xampp_stop.exe";
     private static final String BROWSER = "chrome";
-
-    public String getRunServerString() {
-        return START_XAMPP_EXE;
-    }
-
-    public String getStopServerString() {
-        return STOP_XAMPP_EXE;
-    }
 
     @BeforeClass
     public void openBrowser() {
         try {
-            Runtime.getRuntime().exec(getRunServerString());
+            Runtime.getRuntime().exec(getRunXamppServer());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -47,7 +40,7 @@ public class LitecartLoginTest {
     public void closeBrowser() {
         stopBrowser();
         try {
-            Runtime.getRuntime().exec(getStopServerString());
+            Runtime.getRuntime().exec(getStopXamppServer());
         } catch (IOException e) {
             e.printStackTrace();
         }
