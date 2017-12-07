@@ -7,6 +7,8 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.util.concurrent.TimeUnit;
+
 public class DriverFactory {
     
     private static WebDriver driver;
@@ -21,28 +23,33 @@ public class DriverFactory {
 
     public static void startChrome() {
         driver = new ChromeDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF() {
         driver = new FirefoxDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF_DEV() {
         FirefoxOptions options = new FirefoxOptions().setBinary(FF_DEV_PATH);
         driver = new FirefoxDriver(options);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF_ESR() {
         FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary(FF_ESR_PATH);
         driver = new FirefoxDriver(options);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 
     public static void startIE() {
         driver = new InternetExplorerDriver();
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         wait = new WebDriverWait(driver, 10);
     }
 
