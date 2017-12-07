@@ -23,34 +23,24 @@ public class DriverFactory {
 
     public static void startChrome() {
         driver = new ChromeDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF() {
         driver = new FirefoxDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF_DEV() {
         FirefoxOptions options = new FirefoxOptions().setBinary(FF_DEV_PATH);
         driver = new FirefoxDriver(options);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public static void startFF_ESR() {
         FirefoxOptions options = new FirefoxOptions().setLegacy(true).setBinary(FF_ESR_PATH);
         driver = new FirefoxDriver(options);
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public static void startIE() {
         driver = new InternetExplorerDriver();
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
     }
 
     public static void startBrowser(String browser) {
@@ -67,6 +57,8 @@ public class DriverFactory {
         } else {
             throw new RuntimeException();
         }
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 10);
     }
 
     public static WebDriver getDriver() {
