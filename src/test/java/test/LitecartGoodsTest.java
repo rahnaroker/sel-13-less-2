@@ -17,15 +17,15 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 public class LitecartGoodsTest {
 
-    private static final String BROWSER = "chrome";
+    private static final String BROWSER = "ie";
 
     @BeforeClass
     public void openBrowser() {
-        try {
-            Runtime.getRuntime().exec(getRunXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Runtime.getRuntime().exec(getRunXamppServer());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         startBrowser(BROWSER);
     }
 
@@ -64,13 +64,50 @@ public class LitecartGoodsTest {
         System.out.println("Total Amount of stickered Products is " + numOfStickeres);
     }
 
+    @Test
+    public void checkPage() {
+        getDriver().get("http://localhost/litecart/");
+        getWait().until(titleIs("Online Store | My Store"));
+        //Оформление на главной странице
+        String mainPage_TITLE = getDriver().findElement(By.cssSelector("div#box-campaigns div.name")).getText();
+        String mainPage_REGULAR_PRICE = getDriver().findElement(By.cssSelector("div#box-campaigns s.regular-price")).getText();
+        String mainPage_REGULAR_PRICE_TEXT_STYLE = getDriver().findElement(By.cssSelector("div#box-campaigns s.regular-price")).getCssValue("text-decoration");
+        String mainPage_REGULAR_PRICE_COLOR = getDriver().findElement(By.cssSelector("div#box-campaigns s.regular-price")).getCssValue("color");
+        String mainPage_DISCOUNT_PRICE = getDriver().findElement(By.cssSelector("div#box-campaigns strong.campaign-price")).getText();
+        String mainPage_DISCOUNT_PRICE_TEXT_STYLE = getDriver().findElement(By.cssSelector("div#box-campaigns strong.campaign-price")).getCssValue("font-weight");
+        String mainPage_DISCOUNT_PRICE_COLOR = getDriver().findElement(By.cssSelector("div#box-campaigns strong.campaign-price")).getCssValue("color");
+        getDriver().findElement(By.cssSelector("div#box-campaigns img.image")).click();
+        //Оформление на странице товара
+        String goodsPage_TITLE = getDriver().findElement(By.cssSelector("h1.title")).getText();
+        String goodsPage_REGULAR_PRICE = getDriver().findElement(By.cssSelector("s.regular-price")).getText();
+        String goodsPage_REGULAR_PRICE_TEXT_STYLE = getDriver().findElement(By.cssSelector("s.regular-price")).getCssValue("text-decoration");
+        String goodsPage_REGULAR_PRICE_COLOR = getDriver().findElement(By.cssSelector("s.regular-price")).getCssValue("color");
+        String goodsPage_DISCOUNT_PRICE = getDriver().findElement(By.cssSelector("strong.campaign-price")).getText();
+        String goodsPage_DISCOUNT_PRICE_TEXT_STYLE = getDriver().findElement(By.cssSelector("strong.campaign-price")).getCssValue("font-weight");
+        String goodsPage_DISCOUNT_PRICE_COLOR = getDriver().findElement(By.cssSelector("strong.campaign-price")).getCssValue("color");
+        //Сравнения
+        mainPage_TITLE.equals(goodsPage_TITLE);
+        mainPage_REGULAR_PRICE.equals(goodsPage_REGULAR_PRICE);
+        mainPage_DISCOUNT_PRICE.equals(goodsPage_DISCOUNT_PRICE);
+        mainPage_REGULAR_PRICE_TEXT_STYLE.contains("line-through solid");
+        goodsPage_REGULAR_PRICE_TEXT_STYLE.contains("line-through solid");
+        mainPage_REGULAR_PRICE_TEXT_STYLE.contains("line-through");
+        goodsPage_REGULAR_PRICE_TEXT_STYLE.contains("line-through");
+        mainPage_REGULAR_PRICE_COLOR.contains("119, 119, 119");
+        goodsPage_REGULAR_PRICE_COLOR.contains("119, 119, 119");
+        mainPage_DISCOUNT_PRICE_TEXT_STYLE.equals("700");
+        goodsPage_DISCOUNT_PRICE_TEXT_STYLE.equals("700");
+        mainPage_DISCOUNT_PRICE_COLOR.contains("204, 0, 0");
+        goodsPage_DISCOUNT_PRICE_COLOR.contains("204, 0, 0");
+    }
+
     @AfterClass
     public void closeBrowser() {
-        try {
-            Runtime.getRuntime().exec(getStopXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Runtime.getRuntime().exec(getStopXamppServer());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         stopBrowser();
     }
 }
