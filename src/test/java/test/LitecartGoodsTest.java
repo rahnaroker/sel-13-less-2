@@ -7,6 +7,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +20,18 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 public class LitecartGoodsTest {
 
-    private static final String BROWSER = "ff_esr";
+    private static final String BROWSER = "chrome";
+
+    public static Integer[] stringToArray(String string) {
+        String str = string;
+        str = str.replaceAll("[^0-9]+", " ");
+        String[] rgbaStr = Arrays.asList(str.trim().split(" ")).toArray(new String[0]);
+        Integer[] rgbaInt = new Integer[rgbaStr.length];
+        for(int i = 0; i < rgbaStr.length; i++) {
+            rgbaInt[i] = Integer.valueOf(rgbaStr[i]);
+        }
+        return rgbaInt;
+    }
 
     @BeforeClass
     public void openBrowser() {
@@ -66,7 +79,7 @@ public class LitecartGoodsTest {
     }
 
     @Test
-    public void checkPage() throws Exception {
+    public void checkPage() {
         //Собираем данные о товаре на главной странице
         getDriver().get("http://localhost/litecart/");
         getWait().until(titleIs("Online Store | My Store"));
@@ -130,15 +143,27 @@ public class LitecartGoodsTest {
         }
     }
 
-    public static Integer[] stringToArray(String string) {
-        String str = string;
-        str = str.replaceAll("[^0-9]+", " ");
-        String[] rgbaStr = Arrays.asList(str.trim().split(" ")).toArray(new String[0]);
-        Integer[] rgbaInt = new Integer[rgbaStr.length];
-        for(int i = 0; i < rgbaStr.length; i++) {
-            rgbaInt[i] = Integer.valueOf(rgbaStr[i]);
-        }
-        return rgbaInt;
+    @Test
+    public void addNewGoods() {
+        getDriver().get("http://localhost/litecart/admin/");
+        getDriver().findElement(By.name("username")).sendKeys("admin");
+        getDriver().findElement(By.name("password")).sendKeys("admin");
+        getDriver().findElement(By.name("login")).click();
+        getWait().until(titleIs("My Store"));
+        getDriver().findElement(By.xpath("//span[text()='Catalog']")).click();
+        getDriver().findElement(By.xpath("//a[text()=' Add New Product']")).click();
+        getDriver().findElement(By.xpath("//label[text()=' Enabled']")).click();
+        getDriver().findElement(By.cssSelector("[name*=name]")).sendKeys("Howard");
+        getDriver().findElement(By.xpath("//strong[text()='Upload Images']/..//td/input")).sendKeys(new File("./resources/howardtheduck.png").getAbsolutePath());
+        getDriver().findElement(By.xpath("//a[text()='Information']")).click();
+        getDriver().findElement(By.cssSelector("[name*=short_description]")).sendKeys("Marvel's Howard The Duck");
+        getDriver().findElement(By.cssSelector("[name*=head_title]")).sendKeys("Plastic toy");
+        getDriver().findElement(By.xpath("//a[text()='Prices']")).click();
+        getDriver().findElement(By.xpath("//*[@id='tab-prices']/table[3]/tbody/tr[2]/td[1]//input")).sendKeys("10");
+        getDriver().findElement(By.xpath("//*[@id='tab-prices']/table[3]/tbody/tr[3]/td[1]//input")).sendKeys("12");
+        getDriver().findElement(By.cssSelector("[name=save]")).click();
+        getDriver().findElement(By.xpath("//a[text()='Howard']")).click();
+        getWait().until(titleIs("Edit Product: Howard | My Store"));
     }
 
     @AfterClass
