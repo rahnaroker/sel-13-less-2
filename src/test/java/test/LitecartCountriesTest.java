@@ -1,23 +1,18 @@
 package test;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-import static main.DriverFactory.getDriver;
-import static main.DriverFactory.startBrowser;
-import static main.DriverFactory.stopBrowser;
+import static main.DriverFactory.*;
 import static main.SettingsProvider.getRunXamppServer;
 import static main.SettingsProvider.getStopXamppServer;
+import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
 
 public class LitecartCountriesTest {
 
@@ -54,6 +49,35 @@ public class LitecartCountriesTest {
     }
 
     @Test
+    public void clickCountriesLinks() {
+        Integer numOfTabs = 0;
+        getDriver().findElement(By.xpath("//span[text()='Countries']")).click();
+        getDriver().findElement(By.cssSelector("a.button")).click();
+        String mainWindow = getDriver().getWindowHandle();
+        List<WebElement> links = getDriver().findElements(By.cssSelector("td#content tbody a"));
+        for (WebElement webElement : links) {
+            try {
+                webElement.click();
+            } catch (UnhandledAlertException e) {
+                Alert alert = getDriver().switchTo().alert();
+                alert.accept();
+                webElement.click();
+            }
+            Set<String> windows = getDriver().getWindowHandles();
+            for (String window : windows) {
+                if (!window.equals(mainWindow)) {
+                    getDriver().switchTo().window(window);
+                    numOfTabs++;
+                    getDriver().close();
+                    getDriver().switchTo().window(mainWindow);
+                }
+            }
+        }
+        numOfTabs.equals(links.size());
+        System.out.println("All links are clicked");
+    }
+
+    @Test
     public void checkCountriesAlphabeticalOrder() {
         getDriver().findElement(By.xpath("//span[text()='Countries']")).click();
 
@@ -64,7 +88,7 @@ public class LitecartCountriesTest {
         sortedListChecker("td:nth-child(5) > a:first-child", countries);
 
         //Удаляем страны без зон из списка
-        for(Iterator<WebElement> iter = countries.listIterator(); iter.hasNext();) {
+        for (Iterator<WebElement> iter = countries.listIterator(); iter.hasNext(); ) {
             WebElement w = iter.next();
             if (w.findElement(By.cssSelector("td:nth-child(6)")).getAttribute("textContent").equals("0")) {
                 iter.remove();
@@ -78,7 +102,7 @@ public class LitecartCountriesTest {
         }
 
         //Проверяем алфавитный порядок зон
-        for(String s : countriesTZ) {
+        for (String s : countriesTZ) {
             getDriver().get("http://localhost/litecart/admin/?app=countries&doc=edit_country&country_code=" + s);
             List<WebElement> zones = getDriver().findElements(By.cssSelector("table#table-zones > tbody > tr td:nth-child(3)"));
             sortedListChecker("input", zones);
