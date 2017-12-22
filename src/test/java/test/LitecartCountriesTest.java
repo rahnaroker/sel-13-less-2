@@ -54,15 +54,9 @@ public class LitecartCountriesTest {
         getDriver().findElement(By.xpath("//span[text()='Countries']")).click();
         getDriver().findElement(By.cssSelector("a.button")).click();
         String mainWindow = getDriver().getWindowHandle();
-        List<WebElement> links = getDriver().findElements(By.cssSelector("td#content tbody a"));
+        List<WebElement> links = getDriver().findElements(By.cssSelector("td#content tbody [target=_blank]"));
         for (WebElement webElement : links) {
-            try {
-                webElement.click();
-            } catch (UnhandledAlertException e) {
-                Alert alert = getDriver().switchTo().alert();
-                alert.accept();
-                webElement.click();
-            }
+            webElement.click();
             Set<String> windows = getDriver().getWindowHandles();
             for (String window : windows) {
                 if (!window.equals(mainWindow)) {
@@ -73,8 +67,7 @@ public class LitecartCountriesTest {
                 }
             }
         }
-        numOfTabs.equals(links.size());
-        System.out.println("All links are clicked");
+        Assert.assertTrue(numOfTabs.equals(links.size()));
     }
 
     @Test
