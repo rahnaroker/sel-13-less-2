@@ -10,7 +10,7 @@ import static main.DriverFactory.*;
 
 public class MyFirstTest {
 
-    private static final String BROWSER = "ff";
+    private static final String BROWSER = "chrome";
 
     @BeforeClass
     public void openBrowser() {

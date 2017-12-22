@@ -23,6 +23,22 @@ public class LitecartCountriesTest {
 
     private static final String BROWSER = "chrome";
 
+    public void sortedListChecker(String cssSelector, List webelementList) {
+
+        ArrayList<String> obtainedList = new ArrayList<>();
+        List<WebElement> elementList = webelementList;
+
+        for (WebElement webElement : elementList) {
+            obtainedList.add(webElement.findElement(By.cssSelector(cssSelector)).getAttribute("textContent"));
+        }
+        ArrayList<String> sortedList = new ArrayList<>();
+        for (String s : obtainedList) {
+            sortedList.add(s);
+        }
+        Collections.sort(obtainedList);
+        Assert.assertTrue(sortedList.equals(obtainedList));
+    }
+
     @BeforeClass
     public void openBrowser() {
         try {
@@ -39,7 +55,6 @@ public class LitecartCountriesTest {
 
     @Test
     public void checkCountriesAlphabeticalOrder() {
-        getDriver().get("http://localhost/litecart/admin/");
         getDriver().findElement(By.xpath("//span[text()='Countries']")).click();
 
         //Получаем список стран
@@ -72,7 +87,6 @@ public class LitecartCountriesTest {
 
     @Test
     public void checkGeoZonesAlphabeticalOrder() {
-        getDriver().get("http://localhost/litecart/admin/");
         getDriver().findElement(By.xpath("//span[text()='Geo Zones']")).click();
 
         //Создаем список ссылок на страны с геозонами
@@ -88,22 +102,6 @@ public class LitecartCountriesTest {
             List<WebElement> geozones = getDriver().findElements(By.cssSelector("[name*=zone_code]"));
             sortedListChecker("[selected=selected]", geozones);
         }
-    }
-
-    public void sortedListChecker(String cssSelector, List webelementList) {
-
-        ArrayList<String> obtainedList = new ArrayList<>();
-        List<WebElement> elementList = webelementList;
-
-        for (WebElement webElement : elementList) {
-            obtainedList.add(webElement.findElement(By.cssSelector(cssSelector)).getAttribute("textContent"));
-        }
-        ArrayList<String> sortedList = new ArrayList<>();
-        for (String s : obtainedList) {
-            sortedList.add(s);
-        }
-        Collections.sort(obtainedList);
-        Assert.assertTrue(sortedList.equals(obtainedList));
     }
 
     @AfterClass
