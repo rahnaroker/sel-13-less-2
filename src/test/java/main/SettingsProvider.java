@@ -1,9 +1,11 @@
 package main;
 
-public class SettingsProvider {
+import java.io.IOException;
 
-    private static final String START_XAMPP_EXE = "C:\\xampp\\xampp_start.exe";
-    private static final String STOP_XAMPP_EXE = "C:\\xampp\\xampp_stop.exe";
+import static constant.ServiceConstants.START_XAMPP_EXE;
+import static constant.ServiceConstants.STOP_XAMPP_EXE;
+
+public class SettingsProvider {
 
     public static String getRunXamppServer() {
         return START_XAMPP_EXE;
@@ -11,5 +13,21 @@ public class SettingsProvider {
 
     public static String getStopXamppServer() {
         return STOP_XAMPP_EXE;
+    }
+
+    public static void startXAMPP() {
+        try {
+            Runtime.getRuntime().exec(getRunXamppServer());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void stopXAMPP() {
+        try {
+            Runtime.getRuntime().exec(getStopXamppServer());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

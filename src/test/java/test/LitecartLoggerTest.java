@@ -11,12 +11,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
 
-import static main.SettingsProvider.getRunXamppServer;
-import static main.SettingsProvider.getStopXamppServer;
+import static main.SettingsProvider.*;
 
 public class LitecartLoggerTest {
 
@@ -24,11 +22,7 @@ public class LitecartLoggerTest {
 
     @BeforeClass
     public void openBrowser() {
-        try {
-            Runtime.getRuntime().exec(getRunXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        startXAMPP();
         DesiredCapabilities caps = DesiredCapabilities.chrome();
         LoggingPreferences logPrefs = new LoggingPreferences();
         logPrefs.enable(LogType.BROWSER, Level.ALL);
@@ -54,11 +48,7 @@ public class LitecartLoggerTest {
 
     @AfterClass
     public void closeBrowser() {
-        try {
-            Runtime.getRuntime().exec(getStopXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stopXAMPP();
         driver.quit();
     }
 

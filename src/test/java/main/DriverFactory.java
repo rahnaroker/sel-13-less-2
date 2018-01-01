@@ -9,12 +9,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
+import static constant.BrowserConstants.FF_DEV_PATH;
+import static constant.BrowserConstants.FF_ESR_PATH;
+
 public class DriverFactory {
     
     private static WebDriver driver;
     private static WebDriverWait wait;
-    private static final String FF_DEV_PATH = "C:\\Program Files\\Nightly\\firefox.exe";
-    private static final String FF_ESR_PATH = "C:\\Program Files\\Mozilla Firefox ESR\\firefox.exe";
 
     public static WebDriverWait getWait()
     {
@@ -57,8 +58,8 @@ public class DriverFactory {
         } else {
             throw new RuntimeException();
         }
-        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 10);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 5);
     }
 
     public static WebDriver getDriver() {

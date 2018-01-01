@@ -6,17 +6,13 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.*;
 
+import static constant.BrowserConstants.Chrome;
 import static main.DriverFactory.*;
-import static main.SettingsProvider.getRunXamppServer;
-import static main.SettingsProvider.getStopXamppServer;
-import static org.openqa.selenium.support.ui.ExpectedConditions.alertIsPresent;
+import static main.SettingsProvider.*;
 
 public class LitecartCountriesTest {
-
-    private static final String BROWSER = "chrome";
 
     public void sortedListChecker(String cssSelector, List webelementList) {
 
@@ -36,12 +32,8 @@ public class LitecartCountriesTest {
 
     @BeforeClass
     public void openBrowser() {
-        try {
-            Runtime.getRuntime().exec(getRunXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        startBrowser(BROWSER);
+        startXAMPP();
+        startBrowser(Chrome);
         getDriver().get("http://localhost/litecart/admin/");
         getDriver().findElement(By.name("username")).sendKeys("admin");
         getDriver().findElement(By.name("password")).sendKeys("admin");
@@ -123,11 +115,7 @@ public class LitecartCountriesTest {
 
     @AfterClass
     public void closeBrowser() {
-        try {
-            Runtime.getRuntime().exec(getStopXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stopXAMPP();
         stopBrowser();
     }
 }

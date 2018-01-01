@@ -5,11 +5,10 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.io.IOException;
 import java.util.UUID;
 
-import static main.SettingsProvider.getRunXamppServer;
-import static main.SettingsProvider.getStopXamppServer;
+import static constant.BrowserConstants.Chrome;
+import static main.SettingsProvider.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 import static main.DriverFactory.*;
 
@@ -17,7 +16,6 @@ public class LitecartLoginTest {
 
     private static final String EMAIL = "test" + generateString() + "@mail.com";
     private static final String PASSWORD = generateString();
-    private static final String BROWSER = "chrome";
 
     public static String generateString() {
         String uuid = UUID.randomUUID().toString();
@@ -26,12 +24,8 @@ public class LitecartLoginTest {
 
     @BeforeClass
     public void openBrowser() {
-        try {
-            Runtime.getRuntime().exec(getRunXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        startBrowser(BROWSER);
+        startXAMPP();
+        startBrowser(Chrome);
     }
 
     @Test
@@ -70,11 +64,7 @@ public class LitecartLoginTest {
 
     @AfterClass
     public void closeBrowser() {
+        stopXAMPP();
         stopBrowser();
-        try {
-            Runtime.getRuntime().exec(getStopXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

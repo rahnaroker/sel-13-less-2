@@ -7,20 +7,16 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static constant.BrowserConstants.Chrome;
 import static main.DriverFactory.*;
-import static main.SettingsProvider.getRunXamppServer;
-import static main.SettingsProvider.getStopXamppServer;
+import static main.SettingsProvider.*;
 import static org.openqa.selenium.support.ui.ExpectedConditions.titleIs;
 
 public class LitecartGoodsTest {
-
-    private static final String BROWSER = "chrome";
 
     public static Integer[] stringToArray(String string) {
         String str = string;
@@ -35,12 +31,8 @@ public class LitecartGoodsTest {
 
     @BeforeClass
     public void openBrowser() {
-        try {
-            Runtime.getRuntime().exec(getRunXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        startBrowser(BROWSER);
+        startXAMPP();
+        startBrowser(Chrome);
     }
 
     @Test
@@ -168,11 +160,7 @@ public class LitecartGoodsTest {
 
     @AfterClass
     public void closeBrowser() {
-        try {
-            Runtime.getRuntime().exec(getStopXamppServer());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        stopXAMPP();
         stopBrowser();
     }
 }
