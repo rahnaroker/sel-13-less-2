@@ -5,18 +5,16 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class MainPage extends Page {
+public class GoodsPage  extends Page {
 
-    public MainPage(WebDriver driver) {
+    public GoodsPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
 
-    public void open() {
-        driver.get("http://localhost/litecart/");
-    }
+    @FindBy(name="add_cart_product")
+    public WebElement addToCart;
 
-    @FindBy(css="div#box-most-popular li:first-child")
-    public WebElement firstGoods;
-
+    @FindBy(css="div#logotype-wrapper a")
+    public WebElement logo;
 }

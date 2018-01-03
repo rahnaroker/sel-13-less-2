@@ -58,8 +58,8 @@ public class DriverFactory {
         } else {
             throw new RuntimeException();
         }
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        wait = new WebDriverWait(driver, 5);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        wait = new WebDriverWait(driver, 10);
     }
 
     public static WebDriver getDriver() {

@@ -1,32 +1,17 @@
 package test;
 
-import main.Application;
 import org.testng.Assert;
-import org.testng.annotations.*;
+import org.testng.annotations.Test;
 
-import static constant.BrowserConstants.Chrome;
-import static main.Application.orderSummary;
-import static main.DriverFactory.startBrowser;
-import static main.DriverFactory.stopBrowser;
+import static main.Application.tableOrders;
 
-public class LitecartCheckoutTest {
-
-    @BeforeClass
-    public void openBrowser() {
-//        startXAMPP();
-        startBrowser(Chrome);
-    }
+public class LitecartCheckoutTest extends TestBase {
 
     @Test
     public void addGoodsToCart() {
-        Application.fillCart(3);
-        Application.clearCart();
-        Assert.assertTrue(orderSummary.equals(0));
-    }
-
-    @AfterClass
-    public void closeBrowser() {
-//        stopXAMPP();
-        stopBrowser();
+        app.fillCart(3);
+        app.clearCart();
+        System.out.println(tableOrders);
+        Assert.assertTrue(tableOrders.equals(0));
     }
 }
